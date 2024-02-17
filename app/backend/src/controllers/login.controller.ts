@@ -7,6 +7,13 @@ const login:RequestHandler = async (req, res):Promise<Response> => {
   return res.status(responseObject.status).json({ message: responseObject.data });
 };
 
+const getRole:RequestHandler = async (_req, res):Promise<Response> => {
+  const { role } = res.locals;
+  const responseObject = loginService.getRole(role);
+  return res.status(responseObject.status).json({ role: responseObject.data });
+};
+
 export default {
   login,
+  getRole,
 };

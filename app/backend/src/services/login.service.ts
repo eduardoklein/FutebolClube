@@ -20,6 +20,9 @@ const login = async (email: string, password: string): Promise<Response<UserSequ
   return { status: 200, data: token };
 };
 
+const getRole = (role: string) => ({ status: 200, data: role });
+
 export default {
   login,
+  getRole,
 };
