@@ -20,6 +20,21 @@ const getAll = async (inProgress: string): Promise<ResponseArray<MatchSequelizeM
   return { status: 200, data: matchesList };
 };
 
+const endMatch = async (id: string) => {
+  await MatchModel.update({ inProgress: false }, { where: { id } });
+  return { status: 200, data: { message: 'Finished' } };
+};
+
+const updateGoals = async (id: string, newHomeGoals: number, newAwayGoals: number) => {
+  await MatchModel.update(
+    { homeTeamGoals: newHomeGoals, awayTeamGoals: newAwayGoals },
+    { where: { id } },
+  );
+  return { status: 200, data: { message: 'Finished' } };
+};
+
 export default {
   getAll,
+  endMatch,
+  updateGoals,
 };

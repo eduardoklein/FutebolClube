@@ -10,7 +10,6 @@ const tokenGenerator = (email: string, id: number, role: string) => {
   }, secret, {
     expiresIn: '24h',
   });
-  console.log(token);
   return token;
 };
 
