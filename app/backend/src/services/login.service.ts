@@ -1,6 +1,5 @@
 import jwt from '../utils/jwt';
-import UserModel, { UserSequelizeModel } from '../database/models/users.models';
-import { Response } from '../Types/Response';
+import UserModel from '../database/models/users.models';
 import bcrypt from '../utils/bcrypt';
 
 const login = async (email: string, password: string) => {
