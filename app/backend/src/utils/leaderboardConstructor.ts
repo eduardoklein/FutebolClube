@@ -13,12 +13,40 @@ const general = (totalTeams: Team[]) => {
       totalLosses: 0,
       goalsFavor: 0,
       goalsOwn: 0,
+      goalsBalance: 0,
+      efficiency: 0,
     };
     return object;
   });
 
   return leaderboardObject;
 };
+
+const calculateBalanceAndEfficiency = (
+  homeTeamGoals: number,
+  awayTeamGoals: number,
+  points: number,
+  games: number,
+) => {
+  const goalsBalance = homeTeamGoals - awayTeamGoals;
+  const efficiency = parseFloat(Number((points / (games * 3)) * 100).toFixed(2));
+
+  return { goalsBalance, efficiency };
+};
+
+const addEandB = (updatedLeaderboard: Leaderboard[]) => updatedLeaderboard.map((place) => {
+  const result = calculateBalanceAndEfficiency(
+    place.goalsFavor,
+    place.goalsOwn,
+    place.totalPoints,
+    place.totalGames,
+  );
+  return {
+    ...place,
+    efficiency: result.efficiency,
+    goalsBalance: result.goalsBalance,
+  };
+});
 
 const calculatePointsHome = (homeTeamGoals: number, awayTeamGoals: number): number => {
   if (homeTeamGoals > awayTeamGoals) {
@@ -76,6 +104,20 @@ const updateLeaderboardForMatchAway = (homeTeam: Leaderboard, match: Match): Lea
   };
 };
 
+const sortedReturn = (updatedLeaderboardWithBandE: Leaderboard[]) => updatedLeaderboardWithBandE
+  .sort((place1, place2) => {
+    if (place1.totalPoints === place2.totalPoints) {
+      if (place1.totalVictories === place2.totalVictories) {
+        if (place1.goalsBalance === place2.goalsBalance) {
+          return place2.goalsFavor - place1.goalsFavor;
+        }
+        return place2.goalsBalance - place1.goalsBalance;
+      }
+      return place2.totalVictories - place1.totalVictories;
+    }
+    return place2.totalPoints - place1.totalPoints;
+  });
+
 const homeTeam = (finishedMatches: Match[], leaderboard: Leaderboard[]) => {
   const updatedLeaderboard = [...leaderboard];
 
@@ -86,7 +128,9 @@ const homeTeam = (finishedMatches: Match[], leaderboard: Leaderboard[]) => {
     updatedLeaderboard[homeTeamIndex] = updateLeaderboardForMatchHome(homeTeamConst, match);
   });
 
-  return updatedLeaderboard;
+  const updatedLeaderboardWithBandE = addEandB(updatedLeaderboard) as Leaderboard[];
+
+  return sortedReturn(updatedLeaderboardWithBandE);
 };
 
 const awayTeam = (finishedMatches: Match[], leaderboard: Leaderboard[]) => {
