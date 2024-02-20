@@ -4,6 +4,12 @@ import auth from '../middlewares/auth';
 
 const matchesRoutes = Router();
 
+matchesRoutes.post(
+  '/',
+  (req, res, next) => { auth.authentication(req, res, next); },
+  (req, res, next) => { matchesController.createMatch(req, res, next); },
+);
+
 matchesRoutes.patch(
   '/:id/finish',
   (req, res, next) => { auth.authentication(req, res, next); },

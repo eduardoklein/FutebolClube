@@ -20,8 +20,20 @@ const updateGoals:RequestHandler = async (req, res) => {
   return res.status(responseObject.status).json(responseObject.data);
 };
 
+const createMatch:RequestHandler = async (req, res) => {
+  const { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals } = req.body;
+  const responseObject = await matchesService.createMatch(
+    +homeTeamId,
+    +awayTeamId,
+    +homeTeamGoals,
+    +awayTeamGoals,
+  );
+  return res.status(responseObject.status).json(responseObject.data);
+};
+
 export default {
   getAll,
   endMatch,
   updateGoals,
+  createMatch,
 };
