@@ -10,8 +10,6 @@ Projeto desenvolvido como parte do curso da Trybe, com o objetivo de criar uma A
 - [Como Usar](#como-usar)
 - [Endpoints](#endpoints)
 - [Testes](#testes)
-- [Contribuição](#contribuição)
-- [Licença](#licença)
 
 ## Sobre o Projeto
 
